@@ -8,6 +8,7 @@ require 'open-uri'
 require 'date'
 require 'csv'
 
+require 'execjs'
 require 'colorize'
 require 'pry'
 require 'csv'
@@ -42,12 +43,16 @@ def scrape_mp(url)
     name: noko.css('#dnn_ctr476_ViewDeputat_lblName').text.strip,
     position: noko.css('#dnn_ctr476_ViewDeputat_lblPosition').text.strip,
     party: noko.css('#dnn_ctr476_ViewDeputat_hlFraction').text.strip,
-    # TODO: parse this
-    email: noko.css('#dnn_ctr476_ViewDeputat_fsContactData').xpath('.//a[contains(text(),"E-mail")]/@href').text,
     term: 2014,
     source: url.to_s,
   }
   data[:position] = '' if data[:position] == 'Depute'
+
+  jsemail = noko.css('#dnn_ctr476_ViewDeputat_fsContactData').xpath('.//a[contains(text(),"E-mail")]/@href').text
+  unless jsemail.to_s.empty?
+    data[:email] = ExecJS.eval(jsemail.split('+')[1])
+  end
+
   ScraperWiki.save_sqlite([:id, :term], data)
 end
 
