@@ -43,9 +43,11 @@ def scrape_mp(url)
     name: noko.css('#dnn_ctr476_ViewDeputat_lblName').text.strip,
     position: noko.css('#dnn_ctr476_ViewDeputat_lblPosition').text.strip,
     party: noko.css('#dnn_ctr476_ViewDeputat_hlFraction').text.strip,
+    image: noko.css('.allTitle img/@src').first.text,
     term: 2014,
     source: url.to_s,
   }
+  data[:image] = URI.join(url, data[:image]).to_s unless data[:image].to_s.empty?
   data[:position] = '' if data[:position] == 'Depute'
 
   jsemail = noko.css('#dnn_ctr476_ViewDeputat_fsContactData').xpath('.//a[contains(text(),"E-mail")]/@href').text
