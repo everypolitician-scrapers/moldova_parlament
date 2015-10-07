@@ -51,6 +51,7 @@ def scrape_mp(url)
     sort_name: sort_name,
     position: noko.css('#dnn_ctr476_ViewDeputat_lblPosition').text.tidy,
     party: noko.css('#dnn_ctr476_ViewDeputat_hlFraction').text.tidy,
+    party_id: noko.css('a#dnn_ctr476_ViewDeputat_hlFraction/@href').text[/Id\/(.*?)\//, 1],
     image: noko.css('.allTitle img/@src').first.text,
     term: 2014,
     source: url.to_s,
@@ -63,7 +64,6 @@ def scrape_mp(url)
     data[:email] = ExecJS.eval(jsemail.split('+')[1])
   end
 
-  puts data
   ScraperWiki.save_sqlite([:id, :term], data)
 end
 
