@@ -67,12 +67,5 @@ def scrape_mp(url)
   ScraperWiki.save_sqlite([:id, :term], data)
 end
 
-term = {
-  id: 2014,
-  name: '2014–2018',
-  start_date: '2014',
-}
-ScraperWiki.save_sqlite([:id], term, 'terms')
-
 scrape_list('http://www.parlament.md/StructuraParlamentului/Deputies/tabid/87/language/en-US/Default.aspx')
 
