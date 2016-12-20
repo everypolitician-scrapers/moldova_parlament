@@ -9,7 +9,6 @@ require 'date'
 require 'csv'
 
 require 'execjs'
-require 'colorize'
 require 'pry'
 require 'csv'
 require 'open-uri/cached'
